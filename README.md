@@ -1,4 +1,4 @@
-# kirigami.el - A unified interface for text folding across a diverse set of Emacs major and minor modes
+# kirigami.el - Enhance text folding across a diverse set of Emacs major and minor modes
 ![Build Status](https://github.com/jamescherti/kirigami.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/kirigami.el)
 ![](https://raw.githubusercontent.com/jamescherti/kirigami.el/main/.images/made-for-gnu-emacs.svg)
@@ -36,7 +36,7 @@ Here are the features that **kirigami** offers:
 
 Extensions:
 * **kirigami-jump**: Integrates Kirigami with Emacs and third-party packages jump mechanisms so navigation never lands inside hidden text. It adds hooks and advices for subsystems such as xref, imenu, consult, save-place, flymake, evil jumps, bookmarks, grep, and org-agenda, creating consistent behavior across all jump related operations.
-* **kirigami-outline**: Optional improvements for `outline-mode` and `outline-minor-mode`. (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).)
+* **kirigami-outline**: Optional improvements for `outline-mode` and `outline-minor-mode`. (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).) When enabled, the package augments behavior related to heading visibility, folded entries, and subtree navigation. These enhancements correct inconsistencies in built-in outline operations and address long-standing bugs in fold visibility and cursor-driven unfolding.
 
 ## Installation
 
@@ -155,20 +155,6 @@ Kirigami defines several interactive commands. These commands abstract over all 
   Close all folds in the buffer.
 
 ## Customizations
-
-### Outline specific enhancements
-
-Kirigami includes the kirigami-outline extension which improves outline-based modes.
-
-When enabled, the package augments behavior related to heading visibility, folded entries, and subtree navigation. These enhancements correct inconsistencies in built-in outline operations and address long-standing bugs in fold visibility and cursor-driven unfolding.
-When outline enhancements are enabled, the package provides corrective behavior for several outline operations:
-
-* More reliable detection of whether a heading is folded.
-* Improved entry expansion that ensures all relevant children and body text become visible.
-* Revised subtree hiding that considers empty entries and transitions to lower-level headings.
-* Legacy compatibility functions for systems relying on older outline APIs.
-
-These functions cooperate with Emacs native outline machinery to provide a more consistent unfolding experience, particularly in heavily nested documents.
 
 ### Extending Kirigami: Adding other fold methods
 

@@ -5,16 +5,25 @@
 
 Kirigami offers a unified interface for text folding across a diverse set of major and minor modes in Emacs, including `outline-mode`, `outline-minor-mode`, `outline-indent-mode`, `org-mode`, `markdown-mode`, `vdiff-mode`, `vdiff-3way-mode`, `hs-minor-mode`, `hide-ifdef-mode`, and `origami-mode`.
 
-With Kirigami, key bindings for folding only need to be set **once**. After that, the same keys work consistently across all supported major and minor modes.
+With Kirigami, folding key bindings only need to be configured **once**. After that, the same keys work consistently across all supported major and minor modes, providing a unified and predictable folding experience. The available commands include:
+
+* `kirigami-open-fold`: Open the fold at point.
+* `kirigami-open-fold-rec`: Open the fold at point recursively.
+* `kirigami-close-fold`: Close the fold at point.
+* `kirigami-open-folds`: Open all folds in the buffer.
+* `kirigami-close-folds`: Close all folds in the buffer.
+* `kirigami-toggle-fold`: Toggle the fold at point.
 
 This eliminates the need to memorize or configure separate key bindings for each mode, providing a **truly unified and efficient workflow**. Users can fold, unfold, and navigate sections immediately, regardless of the file type or mode, saving time and reducing errors.
 
-The Kirigami package also introduces **optional enhancements for outline-mode** and a **configurable set of handlers** that integrate with existing folding frameworks. This ensures that folds behave **predictably**, even in environments where traditional folding mechanisms differ widely between modes.
+The Kirigami package also introduces **optional enhancements for outline-mode** and a **configurable set of handlers** that integrate with existing folding frameworks.
+
+If this enhances your workflow, please show your support by **⭐ starring kirigami.el on GitHub** to help more Emacs users discover its benefits.
 
 ## Features
 
 
-* **Uniform commands**: The same commands and keys can be used to open, close, toggle, or check folds, no matter what mode is active. (Commands: `kirigami-open-fold`, `kirigami-open-fold-rec`, `kirigami-open-folds`, `kirigami-close-fold`, `kirigami-toggle-fold`, `kirigami-close-folds`, `kirigami-close-folds-except-current`)
+* **Uniform commands**: The same commands and keys can be used to open, close, toggle, or check folds, no matter what mode is active. (Commands: `kirigami-open-fold`, `kirigami-open-fold-rec`, `kirigami-open-folds`, `kirigami-close-fold`, `kirigami-toggle-fold`, `kirigami-close-folds`)
 * **Automatic handler selection**: Kirigami automatically chooses the right folding method based on the mode being used.
 * **Extensible fold list**: Users can easily add or customize folding methods for different modes through the `kirigami-fold-list` alist.
 * Support for multiple folding backends, including:
@@ -103,9 +112,6 @@ Kirigami defines several interactive commands. These commands abstract over all 
 
 * `kirigami-close-folds`
   Close all folds in the buffer.
-
-* `kirigami-close-folds-except-current`
-  Close all folds except the fold at point.
 
 ## Customizations
 

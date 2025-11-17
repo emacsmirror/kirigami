@@ -136,8 +136,6 @@
          (t
           (with-no-warnings
             (hide-subtree)))))
-     ;; TODO try this again
-     ;; :close kirigami--outline-close-previous-lower-heading-if-current-closed)
      ((origami-mode)
       :invisible-p  ,(lambda () (invisible-p (point)))
       :open-all   ,(lambda () (when (fboundp 'origami-open-all-nodes)

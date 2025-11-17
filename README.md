@@ -14,7 +14,7 @@ With Kirigami, folding key bindings only need to be configured **once**. After t
 * `kirigami-close-folds`: Close all folds in the buffer.
 * `kirigami-toggle-fold`: Toggle the fold at point.
 
-The package also offer extensions:
+The package also offer the following features:
 - The kirigami package also improves `outline-mode`, `outline-minor-mode`, `org-mode`... (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).)
 - **Ensure that the relevant fold is opened when the cursor moves into folded content.** This integrates Kirigami with Emacs and third-party jump mechanisms so navigation never lands inside hidden text. It adds hooks and advices for subsystems such as xref, imenu, consult, save-place, flymake, evil jumps, bookmarks, grep, org-agenda...
 

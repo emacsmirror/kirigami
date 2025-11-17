@@ -6,7 +6,7 @@
 ;; Version: 0.9.9
 ;; URL: https://github.com/jamescherti/kirigami.el
 ;; Keywords: convenience
-;; Package-Requires: ((emacs "24.3"))
+;; Package-Requires: ((emacs "26.3"))
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
 ;; This file is free software; you can redistribute it and/or modify

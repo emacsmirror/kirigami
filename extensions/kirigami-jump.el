@@ -132,7 +132,7 @@ Optional enhancements for `jump-mode', `jump-minor-mode', and related
 modes such as `jump-indent-mode' and `org-mode'."
   :global t
   :lighter " KirigamiJ"
-  :group 'kirigami-jum-
+  :group 'kirigami-jump
   (if kirigami-jump-mode
       (kirigami-jump--set-hooks t)
     (kirigami-jump--set-hooks nil)))

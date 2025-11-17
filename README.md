@@ -35,6 +35,7 @@ If this enhances your workflow, please show your support by **⭐ starring kirig
   * `origami-mode`
 
 Extensions:
+* **kirigami-jump**: The kirigami-jump extension integrates Kirigami with Emacs jump mechanisms so navigation never lands inside hidden text. It adds hooks and advices for subsystems such as xref, imenu, consult, save-place, flymake, evil jumps, bookmarks, grep, and org-agenda, creating consistent behavior across all jump related operations.
 * **kirigami-outline**: Optional improvements for `outline-mode` and `outline-minor-mode` modes enabled through a dedicated variable (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html)).
 
 ## Installation

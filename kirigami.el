@@ -377,7 +377,6 @@ See also `kirigami-open-fold' and `kirigami-close-fold'."
 ;;;###autoload
 (defun kirigami-close-folds-except-current ()
   "Close all folds except the current one."
-  (interactive)
   (let ((point (point)))
     (kirigami-close-folds)
     (goto-char point)

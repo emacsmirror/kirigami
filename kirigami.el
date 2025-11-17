@@ -59,7 +59,7 @@
           :tag "Github"
           "https://github.com/jamescherti/kirigami.el"))
 
-(defvar kirigami-outline-enhancements t
+(defcustom kirigami-enhance-outline t
   "Enable enhancements for `outline' and `outline-minor-mode' mode.
 When non-nil, kirigami improves folding behavior in `outline' mode, addressing
 common issues with opening, closing, and navigating folds.
@@ -68,7 +68,18 @@ For example, it addresses bugs reported here:
 https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html
 
 It is recommended to keep this variable set to t unless there is a
-specific reason to disable these enhancements.")
+specific reason to disable these enhancements."
+  :type 'boolean
+  :group 'kirigami)
+
+(defcustom kirigami-unfold-on-jump t
+  "Reveal folded content whenever point moves into a hidden section.
+Integrates Kirigami with native and third-party jump mechanisms so navigation
+does not land inside concealed text. Adds hooks and advices for components such
+as `xref', `imenu', `consult', `save-place', `flymake', `evil' jumps,
+`bookmarks', `grep', and `org-agenda'."
+  :type 'boolean
+  :group 'kirigami)
 
 (defvar kirigami-fold-list
   `(((vdiff-mode)
@@ -127,7 +138,7 @@ specific reason to disable these enhancements.")
                            (fboundp 'outline-indent-open-fold))
                       (outline-indent-open-fold))
 
-                     ((and kirigami-outline-enhancements
+                     ((and kirigami-enhance-outline
                            (fboundp 'kirigami--outline-show-entry))
                       (kirigami--outline-show-entry))
 
@@ -140,7 +151,7 @@ specific reason to disable these enhancements.")
      :close      ;; hide-subtree
      ,(lambda ()
         (cond
-         ((and kirigami-outline-enhancements
+         ((and kirigami-enhance-outline
                (fboundp 'kirigami--outline-hide-subtree))
           (kirigami--outline-hide-subtree))
 
@@ -245,7 +256,7 @@ would ignore `:close-all' actions and invoke the provided functions on
     (when fn
       (with-demoted-errors "Error: %S" (funcall fn)))))
 
-;;; Functions: `outline' enhancements (`kirigami-outline-enhancements')
+;;; Functions: `outline' enhancements (`kirigami-enhance-outline')
 
 (defun kirigami--outline-heading-folded-p ()
   "Return non-nil if the body following the current heading is folded."
@@ -349,6 +360,68 @@ with a lower level and close its subtree. Otherwise, close the current subtree."
           (kirigami--outline-legacy-hide-subtree)))
     (error "Required outline functions are undefined")))
 
+;;; Functions: Reveal on jump
+
+(defun kirigami--reveal-on-jump-outline-open-parent-headers (&rest _)
+  "Reveal the entry at point while ignoring errors."
+  (when (fboundp 'outline-up-heading)
+    (save-excursion
+      (catch 'done
+        (while t
+          (unless (eq (ignore-errors (outline-up-heading 1 t)
+                                     :success)
+                      :success)
+            (throw 'done t))
+
+          (kirigami--outline-legacy-show-entry))))))
+
+(defun kirigami--reveal-on-jump-open-fold (&rest _)
+  "Ensure the current heading and body are fully visible."
+  (interactive)
+  (ignore-errors (kirigami-open-fold)))
+
+(defun kirigami--reveal-on-jump-around-outline-show-entry (fn &rest args)
+  "FN is the advised function. ARGS are the function arguments."
+  (let ((result nil))
+    (unwind-protect
+        (progn (setq result (apply fn args))
+               (kirigami-open-fold))
+      result)))
+
+(defun kirigami--reveal-on-jump-outline-after-jump-when-not-minibuffer ()
+  "Use `run-at-time' or `run-with-idle-timer' to defer expensive work."
+  ;; Checking minibufferp fixes consult fd and ripgrep slow down
+  (unless (minibufferp)
+    (run-with-idle-timer 0 nil #'kirigami--reveal-on-jump-outline-open-parent-headers)))
+
+(defun kirigami--reveal-on-jump-delayed-open-parent-headers ()
+  "Use `run-at-time' or `run-with-idle-timer' to defer expensive work."
+  (run-with-idle-timer 0 nil #'kirigami--reveal-on-jump-outline-open-parent-headers))
+
+(defun kirigami--reveal-on-jump-set-hooks (enable)
+  "Enable or disable hooks and advices for automatic unfolding.
+If ENABLE is non-nil, install hooks. Otherwise remove them."
+  (let ((fn (if enable #'add-hook #'remove-hook)))
+    (funcall fn 'xref-after-jump-hook #'kirigami--reveal-on-jump-open-fold -80)
+    (funcall fn 'evil-jumps-post-jump-hook #'kirigami--reveal-on-jump-open-fold -80)
+    (funcall fn 'save-place-after-find-file-hook #'kirigami--reveal-on-jump-open-fold -80)
+    (funcall fn 'bookmark-after-jump-hook #'kirigami--reveal-on-jump-open-fold -80)
+    (funcall fn 'next-error-hook #'kirigami--reveal-on-jump-open-fold -80)
+
+    ;; -------------------------------------------
+    ;; OPEN PARENT HEADERS
+    ;; Generally useful when parts of it are open
+    ;; -------------------------------------------
+
+    ;; For instance: `consult-line'
+    ;; Seems to use my-outline-isearch-open-invisible-function
+    (funcall fn 'imenu-after-jump-hook #'kirigami--reveal-on-jump-delayed-open-parent-headers -80)
+
+    (funcall fn 'consult-after-jump-hook #'kirigami--reveal-on-jump-outline-after-jump-when-not-minibuffer -80)
+
+    ;; org agendo to todo entry
+    (funcall fn 'org-agenda-after-show-hook #'kirigami--reveal-on-jump-delayed-open-parent-headers -80)))
+
 ;;; Functions: open/close folds
 
 ;;;###autoload
@@ -412,8 +485,14 @@ See also `kirigami-open-fold' and `kirigami-close-fold'."
   :lighter " Kirigami"
   :group 'kirigami
   (if kirigami-mode
-      t
-    t))
+      (progn
+        (when kirigami-enhance-outline
+          (advice-add 'outline-show-entry :around #'kirigami--outline-show-entry))
+
+        (when kirigami-unfold-on-jump
+          (kirigami--reveal-on-jump-set-hooks t)))
+    (kirigami--reveal-on-jump-set-hooks nil)
+    (advice-remove 'outline-show-entry #'kirigami--outline-show-entry)))
 
 (provide 'kirigami)
 ;;; kirigami.el ends here

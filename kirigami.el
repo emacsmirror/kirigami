@@ -29,8 +29,8 @@
 
 ;;; Variables
 
-(defvar kirigami-outline-enhancements t
-  "Enable enhancements for `outline' mode.
+(defvar kirigami-outline-enhancements nil
+  "Enable enhancements for `outline' and `outline-minor-mode' mode.
 When non-nil, kirigami improves folding behavior in `outline' mode, addressing
 common issues with opening, closing, and navigating folds.
 
@@ -133,8 +133,7 @@ specific reason to disable these enhancements.")
                                 (origami-open-node-recursively (current-buffer)
                                                                (point))))
       :close      ,(lambda () (when (fboundp 'origami-close-node)
-                                (origami-close-node (current-buffer) (point))))))
-    )
+                                (origami-close-node (current-buffer) (point)))))))
   "Actions to be performed for various folding operations.
 
 The value should be a list of fold handlers, were a fold handler has

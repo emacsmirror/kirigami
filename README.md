@@ -3,7 +3,30 @@
 ![License](https://img.shields.io/github/license/jamescherti/kirigami.el)
 ![](https://raw.githubusercontent.com/jamescherti/kirigami.el/main/.images/made-for-gnu-emacs.svg)
 
-A unified method to fold and unfold text.
+Kirigami offers a unified interface for text folding across a diverse set of major and minor modes in Emacs, including `outline-mode`, `outline-minor-mode`, `outline-indent-mode`, `org-mode`, `markdown-mode`, `vdiff-mode`, `vdiff-3way-mode`, `hs-minor-mode`, `hide-ifdef-mode`, and `origami-mode`.
+
+With Kirigami, key bindings for folding only need to be set **once**. After that, the same keys work consistently across all supported major and minor modes.
+
+This eliminates the need to memorize or configure separate key bindings for each mode, providing a **truly unified and efficient workflow**. Users can fold, unfold, and navigate sections immediately, regardless of the file type or mode, saving time and reducing errors.
+
+The Kirigami package also introduces **optional enhancements for outline-mode** and a **configurable set of handlers** that integrate with existing folding frameworks. This ensures that folds behave **predictably**, even in environments where traditional folding mechanisms differ widely between modes.
+
+## Features
+
+
+* **Uniform commands**: The same commands and keys can be used to open, close, toggle, or check folds, no matter what mode is active. (Commands: `kirigami-open-fold`, `kirigami-open-fold-rec`, `kirigami-open-folds`, `kirigami-close-fold`, `kirigami-toggle-fold`, `kirigami-close-folds`, `kirigami-close-folds-except-current`)
+* **Automatic handler selection**: Kirigami automatically chooses the right folding method based on the mode being used.
+* **Extensible fold list**: Users can easily add or customize folding methods for different modes through the `kirigami-fold-list` alist.
+* Support for multiple folding backends, including:
+  * `outline-mode`, `outline-minor-mode`
+  * `outline-indent-mode` ([outline-indent.el](https://github.com/jamescherti/outline-indent.el), a package that enables code folding based on indentation)
+  * `org-mode`
+  * `markdown-mode`
+  * `vdiff-mode` and `vdiff-3way-mode`
+  * `hs-minor-mode`
+  * `hide-ifdef-mode`
+  * `origami-mode`
+* Optional improvements (defcustom: `kirigami-outline-enhancements`) for `outline-mode` and `outline-minor-mode` modes enabled through a dedicated variable (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html)).
 
 ## Installation
 
@@ -57,9 +80,103 @@ Here is how to install *kirigami* on Doom Emacs:
 doom sync
 ```
 
+## Usage
+
+### Commands
+
+Kirigami defines several interactive commands. These commands abstract over all supported folding systems:
+
+* `kirigami-open-fold`
+  Open the fold at point.
+
+* `kirigami-open-fold-rec`
+  Open the fold at point recursively.
+
+* `kirigami-open-folds`
+  Open all folds in the buffer.
+
+* `kirigami-close-fold`
+  Close the fold at point.
+
+* `kirigami-toggle-fold`
+  Toggle the fold at point.
+
+* `kirigami-close-folds`
+  Close all folds in the buffer.
+
+* `kirigami-close-folds-except-current`
+  Close all folds except the fold at point.
+
+## Customizations
+
+### Outline specific enhancements
+
+Kirigami includes optional improvements for outline-based modes, activated when the following variable is non-nil:
+
+```elisp
+kirigami-outline-enhancements
+```
+
+When enabled, the package augments behavior related to heading visibility, folded entries, and subtree navigation. These enhancements correct inconsistencies in built-in outline operations and address long-standing bugs in fold visibility and cursor-driven unfolding.
+When outline enhancements are enabled, the package provides corrective behavior for several outline operations:
+
+* More reliable detection of whether a heading is folded.
+* Improved entry expansion that ensures all relevant children and body text become visible.
+* Revised subtree hiding that considers empty entries and transitions to lower-level headings.
+* Legacy compatibility functions for systems relying on older outline APIs.
+
+These functions cooperate with Emacs native outline machinery to provide a more consistent unfolding experience, particularly in heavily nested documents.
+
+
+### Extending Kirigami: Adding other fold methods
+
+The core behavior is driven by `kirigami-fold-list`, a customizable list that associates folding actions with sets of major or minor modes. Each entry in the list specifies:
+
+* A list of modes that act as a predicate.
+* A property list describing supported folding actions.
+
+Properties include:
+
+* `:invisible-p`
+  Predicate indicating whether text at point is invisible.
+
+* `:open-all`
+  Function to open every fold in the current buffer.
+
+* `:close-all`
+  Function to close every fold in the current buffer.
+
+* `:toggle`
+  Function to toggle the fold at point.
+
+* `:open`
+  Function to open the fold at point.
+
+* `:open-rec`
+  Function to open the fold at point recursively.
+
+* `:close`
+  Function to close the fold at point.
+
+Each property must specify a function. A value of `nil` indicates that the corresponding action is ignored for that handler.
+
+Here is an example using the built-in `hs-minor-mode`, which Kirigami supports by default. This example demonstrates how additional folding actions can be configured:
+```elisp
+(push
+ '((hs-minor-mode)
+   :invisible-p (lambda () (eq (get-char-property (point) 'invisible) 'hs))
+   :open-all    hs-show-all
+   :close-all   hs-hide-all
+   :toggle      hs-toggle-hiding
+   :open        hs-show-block
+   :open-rec    nil
+   :close       hs-hide-block)
+ kirigami-fold-list)
+```
+
 ## Author and License
 
-The *kirigami* Emacs package has been written by [James Cherti](https://www.jamescherti.com/) and is distributed under terms of the GNU General Public License version 3, or, at your choice, any later version.
+The *kirigami* Emacs package has been written by [James Cherti](https://www.jamescherti.com/) and is distributed under terms of the GNU General Public License version 3, or, at your choice, any later version. Special thanks to the developers of Evil mode. Kirigami builds upon the ideas and code from Evil mode to provide enhanced and unified code folding functionality.
 
 Copyright (C) 2025 James Cherti
 
@@ -68,3 +185,23 @@ This program is free software: you can redistribute it and/or modify it under th
 ## Links
 
 - [kirigami.el @GitHub](https://github.com/jamescherti/kirigami.el)
+
+
+Other Emacs packages by the same author:
+- [minimal-emacs.d](https://github.com/jamescherti/minimal-emacs.d): This repository hosts a minimal Emacs configuration designed to serve as a foundation for your vanilla Emacs setup and provide a solid base for an enhanced Emacs experience.
+- [compile-angel.el](https://github.com/jamescherti/compile-angel.el): **Speed up Emacs!** This package guarantees that all .el files are both byte-compiled and native-compiled, which significantly speeds up Emacs.
+- [outline-indent.el](https://github.com/jamescherti/outline-indent.el): An Emacs package that provides a minor mode that enables code folding and outlining based on indentation levels for various indentation-based text files, such as YAML, Python, and other indented text files.
+- [easysession.el](https://github.com/jamescherti/easysession.el): Easysession is lightweight Emacs session manager that can persist and restore file editing buffers, indirect buffers/clones, Dired buffers, the tab-bar, and the Emacs frames (with or without the Emacs frames size, width, and height).
+- [vim-tab-bar.el](https://github.com/jamescherti/vim-tab-bar.el): Make the Emacs tab-bar Look Like Vim's Tab Bar.
+- [elispcomp](https://github.com/jamescherti/elispcomp): A command line tool that allows compiling Elisp code directly from the terminal or from a shell script. It facilitates the generation of optimized .elc (byte-compiled) and .eln (native-compiled) files.
+- [tomorrow-night-deepblue-theme.el](https://github.com/jamescherti/tomorrow-night-deepblue-theme.el): The Tomorrow Night Deepblue Emacs theme is a beautiful deep blue variant of the Tomorrow Night theme, which is renowned for its elegant color palette that is pleasing to the eyes. It features a deep blue background color that creates a calming atmosphere. The theme is also a great choice for those who miss the blue themes that were trendy a few years ago.
+- [Ultyas](https://github.com/jamescherti/ultyas/): A command-line tool designed to simplify the process of converting code snippets from UltiSnips to YASnippet format.
+- [dir-config.el](https://github.com/jamescherti/dir-config.el): Automatically find and evaluate .dir-config.el Elisp files to configure directory-specific settings.
+- [flymake-bashate.el](https://github.com/jamescherti/flymake-bashate.el): A package that provides a Flymake backend for the bashate Bash script style checker.
+- [flymake-ansible-lint.el](https://github.com/jamescherti/flymake-ansible-lint.el): An Emacs package that offers a Flymake backend for ansible-lint.
+- [inhibit-mouse.el](https://github.com/jamescherti/inhibit-mouse.el): A package that disables mouse input in Emacs, offering a simpler and faster alternative to the disable-mouse package.
+- [quick-sdcv.el](https://github.com/jamescherti/quick-sdcv.el): This package enables Emacs to function as an offline dictionary by using the sdcv command-line tool directly within Emacs.
+- [enhanced-evil-paredit.el](https://github.com/jamescherti/enhanced-evil-paredit.el): An Emacs package that prevents parenthesis imbalance when using *evil-mode* with *paredit*. It intercepts *evil-mode* commands such as delete, change, and paste, blocking their execution if they would break the parenthetical structure.
+- [stripspace.el](https://github.com/jamescherti/stripspace.el): Ensure Emacs Automatically removes trailing whitespace before saving a buffer, with an option to preserve the cursor column.
+- [persist-text-scale.el](https://github.com/jamescherti/persist-text-scale.el): Ensure that all adjustments made with text-scale-increase and text-scale-decrease are persisted and restored across sessions.
+- [pathaction.el](https://github.com/jamescherti/pathaction.el): Execute the pathaction command-line tool from Emacs. The pathaction command-line tool enables the execution of specific commands on targeted files or directories. Its key advantage lies in its flexibility, allowing users to handle various types of files simply by passing the file or directory as an argument to the pathaction tool. The tool uses a .pathaction.yaml rule-set file to determine which command to execute. Additionally, Jinja2 templating can be employed in the rule-set file to further customize the commands.

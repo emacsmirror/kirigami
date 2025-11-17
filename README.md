@@ -14,9 +14,7 @@ With Kirigami, folding key bindings only need to be configured **once**. After t
 * `kirigami-close-folds`: Close all folds in the buffer.
 * `kirigami-toggle-fold`: Toggle the fold at point.
 
-The **kirigami** package also offer the following features:
-- Improves `outline-mode`, `outline-minor-mode`, `org-mode`... (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).)
-- **Ensures that the relevant fold is opened when the cursor moves into folded content.** This integrates Kirigami with Emacs and third-party jump mechanisms so navigation never lands inside hidden text. It adds hooks and advices for subsystems such as xref, imenu, consult, save-place, flymake, evil jumps, bookmarks, grep, org-agenda...
+The **kirigami** package also improves `outline-mode`, `outline-minor-mode`, `org-mode` by fixing Emacs bugs such as [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).
 
 If **kirigami** enhances your workflow, please show your support by **⭐ starring kirigami.el on GitHub** to help more Emacs users discover its benefits.
 
@@ -36,7 +34,6 @@ Here are the features that **kirigami** offers:
   * `hide-ifdef-mode`
   * `origami-mode`
 * Improve `outline-mode`, `outline-minor-mode`, `org-mode` text folding. (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).)
-* Integrates Kirigami with Emacs and third-party packages jump mechanisms so navigation never lands inside hidden text.
 
 ## Installation
 
@@ -53,19 +50,7 @@ To install *kirigami* with `straight.el`:
              :type git
              :host github
              :repo "jamescherti/kirigami.el"
-             :files (:defaults "extensions/kirigami*.el"))
-  :config
-  ;; Enable enhancements for `outline' and `outline-minor-mode' mode.
-  (setq kirigami-enhance-outline t)
-
-  ;; Integrates Kirigami with native and third-party jump mechanisms so
-  ;; navigation does not land inside concealed text. Adds hooks and
-  ;; advices for components such as `xref', `imenu', `consult',
-  ;; `save-place', `flymake', `evil' jumps, `bookmarks', `grep', and
-  ;; `org-agenda'.
-  (setq kirigami-unfold-on-jump t)
-
-  (kirigami-mode))
+             :files (:defaults "extensions/kirigami*.el")))
 ```
 
 ### Alternative installation: Doom Emacs
@@ -79,23 +64,7 @@ Here is how to install *kirigami* on Doom Emacs:
   (:host github :repo "jamescherti/kirigami.el"))
 ```
 
-2. Add to `~/.doom.d/config.el`:
-```elisp
-(after! kirigami
-        ;; Enable enhancements for `outline' and `outline-minor-mode' mode.
-        (setq kirigami-enhance-outline t)
-
-        ;; Integrates Kirigami with native and third-party jump mechanisms so
-        ;; navigation does not land inside concealed text. Adds hooks and
-        ;; advices for components such as `xref', `imenu', `consult',
-        ;; `save-place', `flymake', `evil' jumps, `bookmarks', `grep', and
-        ;; `org-agenda'.
-        (setq kirigami-unfold-on-jump t)
-
-        (kirigami-mode))
-```
-
-3. Run the `doom sync` command:
+2. Run the `doom sync` command:
 ```
 doom sync
 ```

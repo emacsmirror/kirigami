@@ -46,8 +46,8 @@ compile: cask
 
 .PHONY: package-lint
 package-lint:
-	cask emacs -Q --eval ${INIT_PACKAGES} -batch -f package-lint-batch-and-exit kirigami.el.el
+	cask emacs -Q --eval ${INIT_PACKAGES} -batch -f package-lint-batch-and-exit kirigami.el
 
 .PHONY: test
 test:
-	if test -d tests; then cask emacs --batch -L . -L tests -l tests/test-kirigami.el.el -f ert-run-tests-batch-and-exit; else true; fi
+	if test -d tests; then cask emacs --batch -L . -L tests -l tests/test-kirigami.el -f ert-run-tests-batch-and-exit; else true; fi

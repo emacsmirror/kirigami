@@ -1,4 +1,4 @@
 (source gnu)
 (source melpa)
 
-(package-file "kirigami.el.el")
+(package-file "kirigami.el")

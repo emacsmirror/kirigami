@@ -1,4 +1,4 @@
-# kirigami.el
+# kirigami.el - A unified interface for text folding across a diverse set of major and minor modes
 ![Build Status](https://github.com/jamescherti/kirigami.el/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/jamescherti/kirigami.el)
 ![](https://raw.githubusercontent.com/jamescherti/kirigami.el/main/.images/made-for-gnu-emacs.svg)
@@ -143,11 +143,7 @@ Kirigami defines several interactive commands. These commands abstract over all 
 
 ### Outline specific enhancements
 
-Kirigami includes optional improvements for outline-based modes, activated when the following variable is non-nil:
-
-```elisp
-kirigami-outline-enhancements
-```
+Kirigami includes optional improvements for outline-based modes, activated when the `kirigami-outline-enhancements` variable is non-nil.
 
 When enabled, the package augments behavior related to heading visibility, folded entries, and subtree navigation. These enhancements correct inconsistencies in built-in outline operations and address long-standing bugs in fold visibility and cursor-driven unfolding.
 When outline enhancements are enabled, the package provides corrective behavior for several outline operations:
@@ -158,7 +154,6 @@ When outline enhancements are enabled, the package provides corrective behavior 
 * Legacy compatibility functions for systems relying on older outline APIs.
 
 These functions cooperate with Emacs native outline machinery to provide a more consistent unfolding experience, particularly in heavily nested documents.
-
 
 ### Extending Kirigami: Adding other fold methods
 

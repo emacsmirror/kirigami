@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/github/license/jamescherti/kirigami.el)
 ![](https://raw.githubusercontent.com/jamescherti/kirigami.el/main/.images/made-for-gnu-emacs.svg)
 
-Kirigami offers a unified interface for text folding across a diverse set of major and minor modes in Emacs, including `outline-mode`, `outline-minor-mode`, `outline-indent-mode`, `org-mode`, `markdown-mode`, `vdiff-mode`, `vdiff-3way-mode`, `hs-minor-mode`, `hide-ifdef-mode`, and `origami-mode`.
+The **kirigami** package offers a unified interface for text folding across a diverse set of major and minor modes in Emacs, including `outline-mode`, `outline-minor-mode`, `outline-indent-mode`, `org-mode`, `markdown-mode`, `vdiff-mode`, `vdiff-3way-mode`, `hs-minor-mode`, `hide-ifdef-mode`, and `origami-mode`.
 
 With Kirigami, folding key bindings only need to be configured **once**. After that, the same keys work consistently across all supported major and minor modes, providing a unified and predictable folding experience. The available commands include:
 
@@ -35,8 +35,8 @@ If this enhances your workflow, please show your support by **⭐ starring kirig
   * `origami-mode`
 
 Extensions:
-* **kirigami-jump**: The kirigami-jump extension integrates Kirigami with Emacs jump mechanisms so navigation never lands inside hidden text. It adds hooks and advices for subsystems such as xref, imenu, consult, save-place, flymake, evil jumps, bookmarks, grep, and org-agenda, creating consistent behavior across all jump related operations.
-* **kirigami-outline**: Optional improvements for `outline-mode` and `outline-minor-mode` modes enabled through a dedicated variable (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html)).
+* **kirigami-jump**: Integrates Kirigami with Emacs and third-party packages jump mechanisms so navigation never lands inside hidden text. It adds hooks and advices for subsystems such as xref, imenu, consult, save-place, flymake, evil jumps, bookmarks, grep, and org-agenda, creating consistent behavior across all jump related operations.
+* **kirigami-outline**: Optional improvements for `outline-mode` and `outline-minor-mode`. (Fixes Emacs bugs such as this one: [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).)
 
 ## Installation
 

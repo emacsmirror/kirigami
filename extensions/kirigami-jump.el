@@ -30,7 +30,6 @@
 
 (require 'kirigami)
 (require 'kirigami-outline)
-(require 'outline)
 
 (defun kirigami-jump--outline-open-parent-headers (&rest _)
   "Reveal the entry at point while ignoring errors."
@@ -57,7 +56,7 @@
                (outline-show-entry))
       result)))
 
-(defun kirigami-jump--outline-after-jump-not-minibuffer ()
+(defun kirigami-jump--outline-after-jump-when-not-minibuffer ()
   "Use `run-at-time' or `run-with-idle-timer' to defer expensive work."
   ;; Checking minibufferp fixes consult fd and ripgrep slow down
   (unless (minibufferp)
@@ -99,7 +98,7 @@ If ENABLE is non-nil, install hooks. Otherwise remove them."
       (funcall fn 'imenu-after-jump-hook #'kirigami-jump--delayed-open-parent-headers -80))
 
     (with-eval-after-load 'consult
-      (funcall fn 'consult-after-jump-hook #'kirigami-jump--outline-after-jump-not-minibuffer -80))
+      (funcall fn 'consult-after-jump-hook #'kirigami-jump--outline-after-jump-when-not-minibuffer -80))
 
     ;; org agendo to TODO entry
     (with-eval-after-load 'org-agenda

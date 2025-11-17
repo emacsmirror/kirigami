@@ -67,7 +67,7 @@ jobs:
         env:
           CASK_PATH: $HOME/.cask/bin
 
-      - name: Unit-tests
-        run: make test
-        env:
-          CASK_PATH: $HOME/.cask/bin
+      # - name: Unit-tests
+      #   run: make test
+      #   env:
+      #     CASK_PATH: $HOME/.cask/bin

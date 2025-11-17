@@ -29,6 +29,14 @@
 
 ;;; Variables
 
+(defgroup kirigami nil
+  "A unified method to fold and unfold text."
+  :group 'kirigami
+  :prefix "kirigami-"
+  :link '(url-link
+          :tag "Github"
+          "https://github.com/jamescherti/kirigami.el"))
+
 (defvar kirigami-outline-enhancements t
   "Enable enhancements for `outline' and `outline-minor-mode' mode.
 When non-nil, kirigami improves folding behavior in `outline' mode, addressing
@@ -169,32 +177,24 @@ to be ignored for that respective handler.  For example:
 would ignore `:close-all' actions and invoke the provided functions on
 `:open' or `:close'.")
 
-(defcustom kirigami-verbose nil
-  "Enable displaying verbose messages."
-  :type 'boolean
-  :group 'kirigami)
+;; (defcustom kirigami-verbose nil
+;;   "Enable displaying verbose messages."
+;;   :type 'boolean
+;;   :group 'kirigami)
 
 ;;; Internal variables
 
-(defgroup kirigami nil
-  "A unified method to fold and unfold text."
-  :group 'kirigami
-  :prefix "kirigami-"
-  :link '(url-link
-          :tag "Github"
-          "https://github.com/jamescherti/kirigami.el"))
+;; (defun kirigami--message (&rest args)
+;;   "Display a message with the same ARGS arguments as `message'."
+;;   (apply #'message (concat "[kirigami] " (car args)) (cdr args)))
 
-(defun kirigami--message (&rest args)
-  "Display a message with the same ARGS arguments as `message'."
-  (apply #'message (concat "[kirigami] " (car args)) (cdr args)))
-
-(defmacro kirigami--verbose-message (&rest args)
-  "Display a verbose message with the same ARGS arguments as `message'."
-  (declare (indent 0) (debug t))
-  `(progn
-     (when kirigami-verbose
-       (kirigami--message
-        (concat ,(car args)) ,@(cdr args)))))
+;; (defmacro kirigami--verbose-message (&rest args)
+;;   "Display a verbose message with the same ARGS arguments as `message'."
+;;   (declare (indent 0) (debug t))
+;;   `(progn
+;;      (when kirigami-verbose
+;;        (kirigami--message
+;;         (concat ,(car args)) ,@(cdr args)))))
 
 ;;; Internal functions
 

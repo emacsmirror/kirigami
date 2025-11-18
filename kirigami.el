@@ -103,7 +103,7 @@ specific reason to disable these enhancements."
      :invisible-p  ,(lambda () (invisible-p (point)))
      :open-all   treesit-fold-open-all
      :close-all  treesit-fold-close-all
-     :toggle     ,(lambda () (call-interactively 'vdiff-toggle-fold))
+     :toggle     treesit-fold-toggle
      :open       treesit-fold-open
      :open-rec   treesit-fold-open-recursively
      :close      treesit-fold-close)

@@ -52,6 +52,17 @@ To install *kirigami* with `straight.el`:
              :repo "jamescherti/kirigami.el"))
 ```
 
+### Alternative installation: use-package and :vc (Built-in feature in Emacs version >= 30)
+
+To install *kirigami* with `use-package` and `:vc` (Emacs >= 30):
+
+``` emacs-lisp
+(use-package kirigami
+  :ensure t
+  :vc (:url "https://github.com/jamescherti/kirigami.el"
+       :rev :newest))
+```
+
 ### Alternative installation: Doom Emacs
 
 Here is how to install *kirigami* on Doom Emacs:

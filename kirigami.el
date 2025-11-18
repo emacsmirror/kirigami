@@ -48,6 +48,13 @@
 ;; each mode, providing a truly unified and efficient workflow. Users can fold,
 ;; unfold, and navigate sections immediately, regardless of the file type or
 ;; mode, saving time and reducing errors.
+;;
+;; In addition to unified interface, the kirigami package enhances folding
+;; behavior in `outline-mode', `outline-minor-mode', and `org-mode'. It ensures
+;; that deep folds open reliably and allows folds to be closed even when the
+;; cursor is positioned inside the content. It resolves upstream Emacs issues,
+;; such as:
+;; https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html
 
 ;;; Variables
 
@@ -61,11 +68,14 @@
 
 (defcustom kirigami-enhance-outline t
   "Enable enhancements for `outline' and `outline-minor-mode' mode.
-When non-nil, kirigami improves folding behavior in `outline' mode, addressing
-common issues with opening, closing, and navigating folds.
 
-For example, it addresses bugs reported here:
-https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html
+This enhances folding behavior in `outline-mode', `outline-minor-mode', and
+`org-mode':
+- It ensures that deep folds open reliably
+- It allows folds to be closed even when the cursor is positioned inside the
+  content.
+- Additionally, it resolves upstream Emacs issues, such as
+  https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html
 
 It is recommended to keep this variable set to t unless there is a
 specific reason to disable these enhancements."

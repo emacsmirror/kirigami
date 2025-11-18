@@ -14,7 +14,7 @@ With Kirigami, folding key bindings only need to be configured **once**. After t
 * `kirigami-close-folds`: Close all folds in the buffer.
 * `kirigami-toggle-fold`: Toggle the fold at point.
 
-The **kirigami** package also improves `outline-mode`, `outline-minor-mode`, `org-mode` by fixing Emacs bugs such as [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).
+(In addition to unified interface, the kirigami package enhances folding behavior in `outline-mode`, `outline-minor-mode`, and `org-mode`. It ensures that deep folds open reliably and allows folds to be closed even when the cursor is positioned inside the content. Additionally, it resolves upstream Emacs issues, such as [bug#79286](https://lists.gnu.org/archive/html/bug-gnu-emacs/2025-08/msg01128.html).)
 
 If **kirigami** enhances your workflow, please show your support by **⭐ starring kirigami.el on GitHub** to help more Emacs users discover its benefits.
 

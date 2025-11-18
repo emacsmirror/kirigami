@@ -31,7 +31,7 @@
 ;; major and minor modes in Emacs, including `outline-mode',
 ;; `outline-minor-mode', `outline-indent-mode', `org-mode', `markdown-mode',
 ;; `vdiff-mode', `vdiff-3way-mode', `hs-minor-mode', `hide-ifdef-mode',
-;; `origami-mode', `yafolding-mode', and `treesit-fold-mode'.
+;; `origami-mode', `yafolding-mode', `folding-mode', and `treesit-fold-mode'.
 ;;
 ;; With Kirigami, folding key bindings only need to be configured once. After
 ;; that, the same keys work consistently across all supported major and minor
@@ -82,7 +82,14 @@ specific reason to disable these enhancements."
   :group 'kirigami)
 
 (defvar kirigami-fold-list
-  `(((vdiff-mode)
+  `(((outline-indent-mode)
+     :open-all   outline-indent-open-folds
+     :close-all  outline-indent-close-folds
+     :toggle     outline-indent-toggle-fold
+     :open       outline-indent-open-fold
+     :open-rec   outline-indent-open-fold-rec
+     :close      outline-indent-close-fold)
+    ((vdiff-mode)
      :open-all   vdiff-open-all-folds
      :close-all  vdiff-close-all-folds
      :toggle     ,(lambda () (call-interactively 'vdiff-toggle-fold))
@@ -96,6 +103,16 @@ specific reason to disable these enhancements."
      :open       ,(lambda () (call-interactively 'vdiff-open-fold))
      :open-rec   ,(lambda () (call-interactively 'vdiff-open-fold))
      :close      ,(lambda () (call-interactively 'vdiff-close-fold)))
+    ((folding-mode)
+     :open-all   folding-open-buffer
+     :close-all  ,(lambda()
+                    (save-excursion
+                      (when (fboundp 'folding-whole-buffer)
+                        (folding-whole-buffer))))
+     :toggle     folding-toggle-show-hide
+     :open       folding-show-current-entry
+     :open-rec   folding-show-current-subtree
+     :close      folding-hide-current-entry)
     ((treesit-fold-mode)
      :open-all   treesit-fold-open-all
      :close-all  treesit-fold-close-all
@@ -117,6 +134,20 @@ specific reason to disable these enhancements."
      :open       show-ifdef-block
      :open-rec   nil
      :close      hide-ifdef-block)
+    ((origami-mode)
+     :open-all   ,(lambda () (when (fboundp 'origami-open-all-nodes)
+                               (origami-open-all-nodes (current-buffer))))
+     :close-all  ,(lambda () (when (fboundp 'origami-close-all-nodes)
+                               (origami-close-all-nodes (current-buffer))))
+     :toggle     ,(lambda () (when (fboundp 'origami-toggle-node)
+                               (origami-toggle-node (current-buffer) (point))))
+     :open       ,(lambda () (when (fboundp 'origami-open-node)
+                               (origami-open-node (current-buffer) (point))))
+     :open-rec   ,(lambda () (when (fboundp 'origami-open-node-recursively)
+                               (origami-open-node-recursively (current-buffer)
+                                                              (point))))
+     :close      ,(lambda () (when (fboundp 'origami-close-node)
+                               (origami-close-node (current-buffer) (point)))))
     ((yafolding-mode)
      :open-all   yafolding-show-all
      :close-all ,(lambda () (save-excursion
@@ -126,13 +157,6 @@ specific reason to disable these enhancements."
      :open       yafolding-show-element
      :open-rec   yafolding-show-element
      :close      yafolding-hide-element)
-    ((outline-indent-mode)
-     :open-all   outline-indent-open-folds
-     :close-all  outline-indent-close-folds
-     :toggle     outline-indent-toggle-fold
-     :open       outline-indent-open-fold
-     :open-rec   outline-indent-open-fold-rec
-     :close      outline-indent-close-fold)
     ((outline-mode
       outline-minor-mode
       org-mode
@@ -175,20 +199,7 @@ specific reason to disable these enhancements."
     ;;  :open       ,(lambda () (call-interactively 'vimish-fold-unfold))
     ;;  :open-rec   ,(lambda () (call-interactively 'vimish-fold-unfold))
     ;;  :close      ,(lambda () (call-interactively 'vimish-fold-refold)))
-    ((origami-mode)
-     :open-all   ,(lambda () (when (fboundp 'origami-open-all-nodes)
-                               (origami-open-all-nodes (current-buffer))))
-     :close-all  ,(lambda () (when (fboundp 'origami-close-all-nodes)
-                               (origami-close-all-nodes (current-buffer))))
-     :toggle     ,(lambda () (when (fboundp 'origami-toggle-node)
-                               (origami-toggle-node (current-buffer) (point))))
-     :open       ,(lambda () (when (fboundp 'origami-open-node)
-                               (origami-open-node (current-buffer) (point))))
-     :open-rec   ,(lambda () (when (fboundp 'origami-open-node-recursively)
-                               (origami-open-node-recursively (current-buffer)
-                                                              (point))))
-     :close      ,(lambda () (when (fboundp 'origami-close-node)
-                               (origami-close-node (current-buffer) (point))))))
+    )
   "Actions to be performed for various folding operations.
 
 The value should be a list of fold handlers, were a fold handler has

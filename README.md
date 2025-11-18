@@ -177,7 +177,7 @@ Here is an example using the built-in `hs-minor-mode`, which Kirigami supports b
 
 ## Frequenlty asked questions
 
-### What does the Kirigami word mean?
+### What is the meaning of the word Kirigami?
 
 Kirigami is a form of Origami, the Japanese art that transforms a flat sheet of paper into a figure through controlled folds. In kirigami, the sheet is both folded and cut to form a three-dimensional structure that rises from the surface.
 

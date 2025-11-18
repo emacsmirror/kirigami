@@ -175,7 +175,7 @@ Here is an example using the built-in `hs-minor-mode`, which Kirigami supports b
  kirigami-fold-list)
 ```
 
-## Frequenlty asked questions
+## Frequently Asked Questions
 
 ### What is the meaning of the word Kirigami?
 

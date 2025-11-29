@@ -40,46 +40,14 @@ The kirigami package supports Emacs version 26.3 and above.
 
 ## Installation
 
-### Emacs: use-package and straight
+To install **easysession** from MELPA:
 
-To install *kirigami* with `straight.el`:
+1. If you haven't already done so, [add MELPA repository to your Emacs configuration](https://melpa.org/#/getting-started).
 
-1. It if hasn't already been done, [add the straight.el bootstrap code](https://github.com/radian-software/straight.el?tab=readme-ov-file#getting-started) to your init file.
-2. Add the following code to the Emacs init file:
+2. Add the following code to your Emacs init file to install **easysession** from MELPA:
 ```elisp
 (use-package kirigami
-  :ensure t
-  :straight (kirigami
-             :type git
-             :host github
-             :repo "jamescherti/kirigami.el"))
-```
-
-### Alternative installation: use-package and :vc (Built-in feature in Emacs version >= 30)
-
-To install *kirigami* with `use-package` and `:vc` (Emacs >= 30):
-
-```elisp
-(use-package kirigami
-  :ensure t
-  :vc (:url "https://github.com/jamescherti/kirigami.el"
-       :rev :newest))
-```
-
-### Alternative installation: Doom Emacs
-
-Here is how to install *kirigami* on Doom Emacs:
-
-1. Add to the `~/.doom.d/packages.el` file:
-```elisp
-(package! kirigami
-  :recipe
-  (:host github :repo "jamescherti/kirigami.el"))
-```
-
-2. Run the `doom sync` command:
-```
-doom sync
+  :ensure t)
 ```
 
 ## Usage

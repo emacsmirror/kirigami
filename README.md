@@ -155,6 +155,10 @@ Kirigami and code folding in Emacs share a structural analogy based on selective
 
 Code folding in Emacs operates on a similar principle. Blocks of text remain present in the buffer, but their visibility is adjusted by folding or unfolding sections.
 
+## Comments from users
+
+* [neurolit on GitHub](https://github.com/jamescherti/kirigami.el/pull/1#issuecomment-3599434757): "thank you very much for this package!"
+
 ## Author and License
 
 The *kirigami* Emacs package has been written by [James Cherti](https://www.jamescherti.com/) and is distributed under terms of the GNU General Public License version 3, or, at your choice, any later version. Special thanks to the developers of Evil mode. Kirigami builds upon the idea and function from Evil mode to provide enhanced and unified code folding functionality to all Emacs users.

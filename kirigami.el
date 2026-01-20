@@ -109,13 +109,26 @@ specific reason to disable these enhancements."
   :group 'kirigami)
 
 (defvar kirigami-fold-list
-  `(((outline-indent-minor-mode)
-     :open-all   outline-indent-open-folds
-     :close-all  outline-indent-close-folds
-     :toggle     outline-indent-toggle-fold
-     :open       outline-indent-open-fold
-     :open-rec   outline-indent-open-fold-rec
-     :close      outline-indent-close-fold)
+  `(
+    ;; ((outline-indent-minor-mode)
+    ;;  :open-all   ,(lambda ()
+    ;;                 (when (fboundp 'outline-indent-open-folds)
+    ;;                   (call-interactively 'outline-indent-open-folds)))
+    ;;  :close-all  ,(lambda ()
+    ;;                 (when (fboundp 'outline-indent-close-folds)
+    ;;                   (call-interactively 'outline-indent-close-folds)))
+    ;;  :toggle     ,(lambda ()
+    ;;                 (when (fboundp 'outline-indent-toggle-fold)
+    ;;                   (call-interactively 'outline-indent-toggle-fold)))
+    ;;  :open       ,(lambda ()
+    ;;                 (when (fboundp 'outline-indent-open-fold)
+    ;;                   (call-interactively 'outline-indent-open-fold)))
+    ;;  :open-rec   ,(lambda ()
+    ;;                 (when (fboundp 'outline-indent-open-fold-rec)
+    ;;                   (call-interactively 'outline-indent-open-fold-rec)))
+    ;;  :close      ,(lambda ()
+    ;;                 (when (fboundp 'outline-indent-close-fold)
+    ;;                   (call-interactively 'outline-indent-close-fold))))
     ((vdiff-mode)
      :open-all   vdiff-open-all-folds
      :close-all  vdiff-close-all-folds

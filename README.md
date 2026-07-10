@@ -67,7 +67,7 @@ To install **kirigami** from MELPA:
   ;; Add Kirigami to the menu bar and context menu (`context-menu-mode').
   (kirigami-show-menu-bar t)
   (kirigami-show-context-menu t)
-  :config
+  :init
   (kirigami-global-mode 1))
 ```
 

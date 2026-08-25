@@ -112,7 +112,34 @@ the window constant."
   :group 'kirigami)
 
 (defvar kirigami-fold-list
-  `(((outline-mode
+  `(((treesit-fold-mode)
+     :open-all   ,(lambda ()
+                    (when (fboundp 'treesit-fold-open-all)
+                      (treesit-fold-open-all)))
+     :close-all  ,(lambda ()
+                    (when (fboundp 'treesit-fold-close-all)
+                      (treesit-fold-close-all)))
+     :toggle     ,(lambda ()
+                    (when (fboundp 'treesit-fold-toggle)
+                      (save-excursion
+                        (kirigami--normalize-point)
+                        (treesit-fold-toggle))))
+     :open       ,(lambda ()
+                    (when (fboundp 'treesit-fold-open)
+                      (save-excursion
+                        (kirigami--normalize-point)
+                        (treesit-fold-open))))
+     :open-rec   ,(lambda ()
+                    (when (fboundp 'treesit-fold-open-recursively)
+                      (save-excursion
+                        (kirigami--normalize-point)
+                        (treesit-fold-open-recursively))))
+     :close      ,(lambda ()
+                    (when (fboundp 'treesit-fold-close)
+                      (save-excursion
+                        (kirigami--normalize-point)
+                        (treesit-fold-close)))))
+    ((outline-mode
       outline-minor-mode
       outline-indent-minor-mode
       org-mode
@@ -182,33 +209,6 @@ the window constant."
      :open        ts-fold-open
      :open-rec    ts-fold-open-recursively
      :close       ts-fold-close)
-    ((treesit-fold-mode)
-     :open-all   ,(lambda ()
-                    (when (fboundp 'treesit-fold-open-all)
-                      (treesit-fold-open-all)))
-     :close-all  ,(lambda ()
-                    (when (fboundp 'treesit-fold-close-all)
-                      (treesit-fold-close-all)))
-     :toggle     ,(lambda ()
-                    (when (fboundp 'treesit-fold-toggle)
-                      (save-excursion
-                        (kirigami--normalize-point)
-                        (treesit-fold-toggle))))
-     :open       ,(lambda ()
-                    (when (fboundp 'treesit-fold-open)
-                      (save-excursion
-                        (kirigami--normalize-point)
-                        (treesit-fold-open))))
-     :open-rec   ,(lambda ()
-                    (when (fboundp 'treesit-fold-open-recursively)
-                      (save-excursion
-                        (kirigami--normalize-point)
-                        (treesit-fold-open-recursively))))
-     :close      ,(lambda ()
-                    (when (fboundp 'treesit-fold-close)
-                      (save-excursion
-                        (kirigami--normalize-point)
-                        (treesit-fold-close)))))
     ((folding-mode)
      :open-all   folding-open-buffer
      :close-all  ,(lambda()

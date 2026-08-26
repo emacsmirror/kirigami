@@ -5,7 +5,7 @@
 ;; Author: James Cherti <https://www.jamescherti.com/contact/>
 ;; Version: 1.1.5
 ;; URL: https://github.com/jamescherti/kirigami.el
-;; Keywords: convenience
+;; Keywords: outlines, convenience
 ;; Package-Requires: ((emacs "26.1"))
 ;; SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -60,7 +60,7 @@
 
 (defgroup kirigami nil
   "A unified method to fold and unfold text."
-  :group 'kirigami
+  :group 'convenience
   :prefix "kirigami-"
   :link '(url-link
           :tag "Github"

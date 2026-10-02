@@ -440,6 +440,15 @@ The return values of functions in this hook are ignored.")
 
 ;;; Internal functions
 
+(declare-function pos-bol nil)
+(declare-function pos-eol nil)
+
+(defalias 'kirigami--pos-bol
+  (if (fboundp 'pos-bol) #'pos-bol #'line-beginning-position))
+
+(defalias 'kirigami--pos-eol
+  (if (fboundp 'pos-eol) #'pos-eol #'line-end-position))
+
 (defvar kirigami-inhibit-redisplay t
   "Non-nil means inhibit UI redisplay during bulk fold operations.
 When expanding or collapsing multiple folds simultaneously, intermediate
@@ -496,8 +505,8 @@ within the leading whitespace."
   (let ((column (current-column)))
     (when (fboundp fn)
       (funcall fn)
-      (let ((line-size (- (line-end-position)
-                          (line-beginning-position))))
+      (let ((line-size (- (kirigami--pos-eol)
+                          (kirigami--pos-bol))))
         (move-to-column (if (< column line-size)
                             column
                           line-size))))))
@@ -640,7 +649,7 @@ partially scrolled off-screen causes the heading to disappear."
                  (throw 'done t)))
 
               ;; Is it invisible?
-              (kirigami--outline-invisible-p (line-end-position))))))
+              (kirigami--outline-invisible-p (kirigami--pos-eol))))))
     (error "Required outline functions are undefined")))
 
 (defun kirigami--outline-legacy-show-entry ()
@@ -721,11 +730,11 @@ Return non-nil if an element was handled."
              ;; ignoring post-blank.
              (>= (point) (save-excursion
                            (goto-char (org-element-post-affiliated block-elem))
-                           (line-beginning-position)))
+                           (kirigami--pos-bol)))
              (<= (point) (save-excursion
                            (goto-char (org-element-end block-elem))
                            (skip-chars-backward " \r\t\n")
-                           (line-end-position))))
+                           (kirigami--pos-eol))))
         (condition-case nil
             (progn
               (when (memq action '(:close :toggle))
@@ -735,7 +744,7 @@ Return non-nil if an element was handled."
 
               ;; Bubble up to the heading if the block is already closed
               (if (and (eq action :close)
-                       (kirigami--outline-invisible-p (line-end-position)))
+                       (kirigami--outline-invisible-p (kirigami--pos-eol)))
                   nil
                 (if (fboundp 'org-fold-hide-block-toggle)
                     (org-fold-hide-block-toggle force)
@@ -775,7 +784,7 @@ Return non-nil if an element was handled."
                        (save-excursion
                          (forward-line 1)
                          (or (kirigami--outline-invisible-p (point))
-                             (kirigami--outline-invisible-p (line-end-position)))))
+                             (kirigami--outline-invisible-p (kirigami--pos-eol)))))
                   nil
                 (org-babel-hide-result-toggle (if (eq force t) 'on force))
                 (setq handled t)))
@@ -788,11 +797,11 @@ Return non-nil if an element was handled."
              ;; Strictly inside the drawer: from :DRAWER: to :END: (inclusive), ignoring post-blank.
              (>= (point) (save-excursion
                            (goto-char (org-element-post-affiliated drawer-elem))
-                           (line-beginning-position)))
+                           (kirigami--pos-bol)))
              (<= (point) (save-excursion
                            (goto-char (org-element-end drawer-elem))
                            (skip-chars-backward " \r\t\n")
-                           (line-end-position))))
+                           (kirigami--pos-eol))))
         (condition-case nil
             (progn
               (when (memq action '(:close :toggle))
@@ -800,7 +809,7 @@ Return non-nil if an element was handled."
 
               ;; Bubble up to the heading if the drawer is already closed
               (if (and (eq action :close)
-                       (kirigami--outline-invisible-p (line-end-position)))
+                       (kirigami--outline-invisible-p (kirigami--pos-eol)))
                   nil
                 (if (fboundp 'org-fold-hide-drawer-toggle)
                     (org-fold-hide-drawer-toggle force)
@@ -868,9 +877,7 @@ and predictable visual expansion."
                        (setq prior-heading-point heading-point)
                        ;; Check if the heading is folded by inspecting the
                        ;; end of the line
-                       (when (invisible-p (if (fboundp 'pos-eol)
-                                              (pos-eol)
-                                            (line-end-position)))
+                       (when (invisible-p (kirigami--pos-eol))
                          ;; Ignore errors to guarantee the target entry is
                          ;; still revealed via `outline-show-entry' even
                          ;; if a buggy third-party `outline-level'
@@ -1115,7 +1122,7 @@ cursor."
 (defun kirigami--reset-hscroll-if-blank ()
   "Reset horizontal scroll to 0 if the current line is off-screen."
   (when (> (window-hscroll) 0)
-    (let ((line-length (- (line-end-position) (line-beginning-position))))
+    (let ((line-length (- (kirigami--pos-eol) (kirigami--pos-bol))))
       (when (< line-length (window-hscroll))
         (set-window-hscroll nil 0)))))
 
@@ -1147,7 +1154,7 @@ cursor."
                     (eq ,window-buffer (window-buffer ,window)))
            (set-window-vscroll ,window ,vscroll t)
            ;; Prevent restoring horizontal scroll if it results in a blank view
-           (let ((line-length (- (line-end-position) (line-beginning-position))))
+           (let ((line-length (- (kirigami--pos-eol) (kirigami--pos-bol))))
              (if (>= line-length ,hscroll)
                  (set-window-hscroll ,window ,hscroll)
                (set-window-hscroll ,window 0))))))))
@@ -1340,7 +1347,7 @@ cursor."
         (let ((next-prop (next-single-property-change (point)
                                                       'ibuffer-filter-group-name
                                                       nil
-                                                      (line-end-position))))
+                                                      (kirigami--pos-eol))))
           (and next-prop (get-text-property next-prop
                                             'ibuffer-filter-group-name))))))
 
